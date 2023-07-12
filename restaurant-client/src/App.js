@@ -1,9 +1,14 @@
+import { Routes, Route } from 'react-router';
+
+import Ordenes from './components/paginas/Ordenes';
 
 function App() {
   return (
-    <h1 class="text-3xl font-ligth">
-      Hola React
-    </h1>
+    <div>
+      <Routes>
+        <Route path="/" element={ <Ordenes /> } />
+      </Routes>
+    </div>
   );
 }
 
