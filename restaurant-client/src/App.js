@@ -1,7 +1,9 @@
 
 function App() {
   return (
-    <h1 className="text-3xl font-light">Hola Tailwind</h1>
+    <h1 class="text-3xl font-ligth">
+      Hola React
+    </h1>
   );
 }
 
