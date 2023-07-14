@@ -3,10 +3,16 @@ import Ordenes from "./components/paginas/Ordenes";
 import Menu from "./components/paginas/Menu";
 import NuevoPlato from "./components/paginas/NuevoPlato";
 import Sidebar from "./components/ui/Sidebar";
+import firebase, { FirebaseContext } from './firebase';
 
 function App() {
   return (
-    <div className="md:flex min-h-screen">
+    <FirebaseContext.Provider
+      value={{
+        firebase
+      }}
+    >
+      <div className="md:flex min-h-screen">
       <Sidebar />
       <div className="md:w-3/5 xl:w-4/5 p-6">
         <Routes>
@@ -16,6 +22,7 @@ function App() {
         </Routes>
       </div>
     </div>
+    </FirebaseContext.Provider>
   );
 }
 
