@@ -6,9 +6,7 @@ import { FirebaseContext } from '../../firebase'
 const NuevoPlato = () => {
 
   // Context con las operaciones de firebase
-  const { firebase } = useContext(FirebaseContext);
-
-  console.log(firebase);
+  const  firebase  = useContext(FirebaseContext);
 
   // Validacion y lectura de los datos del formulario
   const formik = useFormik({
@@ -32,8 +30,12 @@ const NuevoPlato = () => {
                   .min(20, 'La descripcion debe ser mas larga')
                   .required('La descripcion es obligatorio'), 
     }),
-    onSubmit: (datos) => {
-      console.log(datos);
+    onSubmit: (plato) => {
+      try {
+          firebase.db.collection('productos').add(plato);
+      } catch(error) {
+        console.log(error);
+      }
     },
   });
   return (

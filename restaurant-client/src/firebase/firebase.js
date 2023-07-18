@@ -1,5 +1,5 @@
 import app from 'firebase/compat/app';
-import 'firebase/firestore';
+import 'firebase/compat/firestore';
 import firebaseConfig from './config';
 
 class Firebase {
