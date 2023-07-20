@@ -1,43 +1,50 @@
 import React, { useContext } from "react";
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { FirebaseContext } from '../../firebase'
-
+import { useFormik } from "formik";
+import * as Yup from "yup";
+ 
+import { FirebaseContext } from "../../firebase";
+ 
 const NuevoPlato = () => {
-
   // Context con las operaciones de firebase
-  const  firebase  = useContext(FirebaseContext);
-
-  // Validacion y lectura de los datos del formulario
+  const { firebase } = useContext(FirebaseContext);
+ 
+  // validacion y leer los datos del formulario
   const formik = useFormik({
     initialValues: {
-        nombre: '',
-        precio: '',
-        categoria: '',
-        imagen: '',
-        descripcion: '',
+      nombre: "",
+      precio: "",
+      categoria: "",
+      imagen: "",
+      descripcion: "",
     },
     validationSchema: Yup.object({
       nombre: Yup.string()
-                  .min(3, 'El nombre debe tener al menos 3 caracteres')
-                  .required('El nombre es obligatorio'),
+        .min(3, "Los Platillos deben tener almenos 3 caracteres")
+        .required("El Nombre del platillo es obligotario"),
       precio: Yup.number()
-                  .min(3, 'Debes agregar un numero')
-                  .required('El precio es obligatorio'),
-      categoria: Yup.string()
-                  .required('La categoria es obligatorio'),
+        .min(1, "Debes agregar un número")
+        .required("El Precio del platillo es obligotario"),
+      categoria: Yup.string().required(
+        "La Categoría del platillo es obligotaria"
+      ),
       descripcion: Yup.string()
-                  .min(20, 'La descripcion debe ser mas larga')
-                  .required('La descripcion es obligatorio'), 
+        .min(10, "La descripción debe ser más larga")
+        .required("La descripción es obligatoria"),
     }),
-    onSubmit: (plato) => {
+    onSubmit: async (datos) => {
       try {
-          firebase.db.collection('productos').add(plato);
-      } catch(error) {
+        // le mando la colección donde debe crearse y el cuerpo como objeto
+        const res = await firebase.insertDocument("productos", { ...datos });
+        // en caso recibo un id quiere decir que se insertó
+        if (res.id) {
+          console.log("insercción de cuerpo correcta:", res.id);
+        }
+      } catch (error) {
         console.log(error);
       }
     },
   });
+
   return (
     <>
       <h1 className="text-3xl font-light mb-4">Agregar Plato</h1>
