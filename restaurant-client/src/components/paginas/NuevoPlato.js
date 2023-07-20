@@ -19,13 +19,13 @@ const NuevoPlato = () => {
     },
     validationSchema: Yup.object({
       nombre: Yup.string()
-        .min(3, "Los Platillos deben tener almenos 3 caracteres")
-        .required("El Nombre del platillo es obligotario"),
+        .min(3, "Los nombres deben tener almenos 3 caracteres")
+        .required("El Nombre del plato es obligotario"),
       precio: Yup.number()
-        .min(1, "Debes agregar un número")
-        .required("El Precio del platillo es obligotario"),
+        .min(1, "Agrega el precio de tu producto")
+        .required("El Precio del plato es obligotario"),
       categoria: Yup.string().required(
-        "La Categoría del platillo es obligotaria"
+        "La Categoría del plato es obligotaria"
       ),
       descripcion: Yup.string()
         .min(10, "La descripción debe ser más larga")
