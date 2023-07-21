@@ -1,12 +1,15 @@
 import React, { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
- 
 import { FirebaseContext } from "../../firebase";
- 
+import { useNavigate } from "react-router-dom"; 
+
 const NuevoPlato = () => {
   // Context con las operaciones de firebase
   const { firebase } = useContext(FirebaseContext);
+
+  // Hook para redireccionar
+  const navigate = useNavigate();
  
   // validacion y leer los datos del formulario
   const formik = useFormik({
@@ -35,10 +38,15 @@ const NuevoPlato = () => {
       try {
         // le mando la colección donde debe crearse y el cuerpo como objeto
         const res = await firebase.insertDocument("productos", { ...datos });
+        
         // en caso recibo un id quiere decir que se insertó
         if (res.id) {
           console.log("insercción de cuerpo correcta:", res.id);
         }
+
+        // Redireccionar a menu
+        navigate('/menu');
+
       } catch (error) {
         console.log(error);
       }
