@@ -157,6 +157,9 @@ const NuevoPlato = () => {
                 name="imagen"
                 randomizeFilename
                 storageRef={firebase.storage.ref("productos")}
+                onUploadStart={handleUploadStart}
+                onUloadError={handleUploadError}
+                onUploadSuccess={hanbleUploadSuccess}
               />
             </div>
 
