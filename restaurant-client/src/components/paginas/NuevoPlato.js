@@ -1,10 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FirebaseContext } from "../../firebase";
 import { useNavigate } from "react-router-dom"; 
 import { FileUploader} from "react-firebase-file-uploader";
+
+
 const NuevoPlato = () => {
+
+  // UseState para las imagenes
+  
   // Context con las operaciones de firebase
   const { firebase } = useContext(FirebaseContext);
 
@@ -55,6 +60,20 @@ const NuevoPlato = () => {
     },
   });
 
+  // Todo sobre las imagenes
+  const handleUploadStart = () => {
+
+  }
+  const handleUploadError = () => {
+
+    
+  }
+  const handleUploadSuccess = () => {
+    
+  }
+  const handleUploadProgress = () => {
+    
+  }
   return (
     <>
       <h1 className="text-3xl font-light mb-4">Agregar Plato</h1>
@@ -158,7 +177,7 @@ const NuevoPlato = () => {
                 randomizeFilename
                 storageRef={firebase.storage.ref("productos")}
                 onUploadStart={handleUploadStart}
-                onUloadError={handleUploadError}
+                onUploadError={handleUploadError}
                 onUploadSuccess={hanbleUploadSuccess}
               />
             </div>
