@@ -3,17 +3,20 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FirebaseContext } from "../../firebase";
 import { useNavigate } from "react-router-dom"; 
-import { FileUploader} from "react-firebase-file-uploader";
+import FileUploader from 'react-firebase-file-uploader';
 
 
 const NuevoPlato = () => {
 
   // UseState para las imagenes
-  
+  const [subiendo, guardarSubiendo] = useState(false);
+  const [progreso, guardarProgreso] = useState(0);
+  const [urlimagen, guardarUrlimagen] = useState('');
+
   // Context con las operaciones de firebase
   const { firebase } = useContext(FirebaseContext);
 
-  console.log(firebase);
+  // console.log(firebase);
 
   // Hook para redireccionar
   const navigate = useNavigate();
@@ -50,7 +53,7 @@ const NuevoPlato = () => {
         if (res.id) {
           console.log("insercción de cuerpo correcta:", res.id);
         }
-
+        datos.imagen = urlimagen;
         // Redireccionar a menu
         navigate('/menu');
 
@@ -62,17 +65,28 @@ const NuevoPlato = () => {
 
   // Todo sobre las imagenes
   const handleUploadStart = () => {
-
+    guardarProgreso(0);
+    guardarSubiendo(true);
   }
   const handleUploadError = () => {
+    guardarSubiendo(false);
+  }
+  const handleUploadSuccess = async nombre => {
+    guardarProgreso(100);
+    guardarSubiendo(false);
 
-    
+    // Almacenamiento de la URL de destino
+    const url = await firebase
+            .storage
+            .ref("productos")
+            .child(nombre)
+            .getDownloadURL();
+    console.log(url);
+    guardarUrlimagen(url);
   }
-  const handleUploadSuccess = () => {
-    
-  }
-  const handleUploadProgress = () => {
-    
+  const handleUploadProgress = progreso => {
+    guardarProgreso(progreso);
+    console.log(progreso);
   }
   return (
     <>
@@ -178,7 +192,8 @@ const NuevoPlato = () => {
                 storageRef={firebase.storage.ref("productos")}
                 onUploadStart={handleUploadStart}
                 onUploadError={handleUploadError}
-                onUploadSuccess={hanbleUploadSuccess}
+                onUploadSuccess={handleUploadSuccess}
+                onProgress={handleUploadProgress}
               />
             </div>
 
